@@ -1,0 +1,131 @@
+\documentclass[10pt,a4paper,oneside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{textpos}
+\usepackage{pstricks}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+\usetikzlibrary{shadows}
+
+\tikzstyle{every picture}=[scale=0.7, inner sep=1.5pt]
+\def\des{\node[draw,shape=rectangle,rounded corners=2pt,minimum size=.5cm,shade]}
+
+\usepackage[a4paper,hmargin=1.5cm, vmargin=1.5cm, centering]{geometry}
+
+\definecolor{violetcurie}{RGB}{115,26,67}
+\definecolor{forestgreen}{rgb}{0.13,0.54,0.13}
+
+\usepackage{listings}
+\lstset
+{
+  language=C,
+	tabsize=2,
+	basicstyle=\small\ttfamily,
+  keywordstyle=\bfseries\color{violetcurie},
+  commentstyle=\itshape\color{forestgreen},
+	identifierstyle=\color{blue},
+  stringstyle=\color{brown}
+}
+
+\begin{document}
+
+\date{}
+\author{}
+\title{
+    \vspace{-1.5cm}
+    S U J E T\\
+    {\Large \textsc{comparaison d'approches algorithmiques}}\\
+    \vspace{3 mm}
+    {\Large -- \textsc{Le Quart De Singe} --}\\
+}
+
+\maketitle
+
+\vspace{-1.5cm}
+
+Le but du projet est de développer un logiciel permettant à un ensemble de joueurs de disputer une partie de quart de singe. L'application doit veiller au respect des règles du jeu et gérer la totalité du déroulement de la partie jusqu'à l'annonce du perdant. 
+
+\section{Règles du jeu}
+
+Les joueurs annoncent à tour de rôle une lettre qui vient compléter un mot. Un joueur donnant une lettre terminant un mot existant (de plus de deux lettres) perd la manche et est gratifié d'un quart de singe. Le joueur courant devant annoncer une lettre peut préférer demander au joueur précédent à quel mot il pense. Si ce dernier est incapable de donner un mot existant et qui soit cohérent avec les lettres déjà annoncées, il perd la manche. Dans le cas contraire, c'est le joueur qui a posé la question qui perd la manche. Le premier joueur ayant récolté quatre quarts de singe perd la partie. 
+
+\medskip
+
+Admettons que, lors des tours précédents d'une manche, les lettres 'A', 'B', 'A' et 'C' ont été annoncées dans cet ordre. Si le joueur courant annonce 'A', il perd la manche car le mot "ABACA" est un mot existant (c'est une matière textile). Si par contre, il joue 'U' et que le joueur suivant lui demande à quel mot il pense, il pourra répondre "ABACULE" (c'est un petit élément cubique d'une mosaïque) et ce joueur écopera d'un quart de singe. Les mots retenus sont ceux acceptés au Scrabble, les accents sont ignorés et les verbes peuvent être conjugués.
+
+\section{Cahier des charges}
+
+L'application à développer doit permettre à au moins deux joueurs de jouer une partie dans sa totalité. Pour qu'un joueur seul puisse s'exercer, l'application doit implémenter des joueurs robots qui joueront automatiquement. Le nombre de joueurs, leur nature (humain ou robot) et l'ordre dans lequel les joueurs prendront leur tour sont spécifiés par une chaîne de caractères passée sur la ligne de commande. Par exemple, si le fichier exécutable est nommé \texttt{singe.exe}, alors la commande \texttt{singe HRHR} lance une partie où 4 joueurs s'affrontent. Le premier et le troisième sont des humains alors que le deuxième et le quatrième sont des robots.
+
+\medskip
+
+Dans les affichages, les joueurs sont désignés par leur numéro d'ordre (\texttt{1}, \texttt{2}, etc) et leur nature (\texttt{H} pour les humains et \texttt{R} pour les robots). A chaque tour de jeu, le numéro du joueur courant, sa nature ainsi que les lettres déjà annoncées sont affichés ("1H (ABAC) $>$ " par exemple). Le joueur saisit soit une lettre de l'alphabet (non accentuée et en majuscule ou en minuscule) s'il veut compléter la chaîne de lettre, soit le caractère '?' s'il veut demander au joueur précédent à quel mot qu'il pense, soit le caractère '!' s'il veut abandonner la manche (et prendre un quart de singe).
+
+\medskip
+
+Si la lettre jouée vient finir un mot existant du dictionnaire, l'application affiche "\texttt{le mot XXX existe, le joueur X prend un quart de singe}" (où \texttt{XXX} est remplacé par le mot ainsi formé et \texttt{X} par le numéro du joueur courant). Si le caractère '\texttt{?}' a été saisi, le joueur précédent est invité à saisir le mot auquel il pense. Si les premières lettres de ce mot ne correspondent pas à celles déjà jouées, l'application affiche "\texttt{le mot XXX ne commence pas par les lettres attendues, le joueur X prend un quart de singe}" (où \texttt{XXX} est remplacé par le mot saisi). Si le mot saisi n'appartient pas au dictionnaire, l'application affiche "\texttt{le mot XXX n'existe pas, le joueur X prend un quart de singe}". Dans le cas contraire, l'application affiche "\texttt{le mot XXX existe, le joueur X prend un quart de singe}". Dans le cas où le caractère '\texttt{!}' est saisi, l'application affiche \texttt{"le joueur X abandonne la manche et prend un quart de singe"}.
+
+\medskip
+
+Un dictionnaire de la langue française est fourni. Il est composé de 369 085 mots. Seuls les mots de plus de deux lettres participent au jeu. L'application doit faire l'hypothèse que le fichier texte correspondant se trouve dans le répertoire courant où est lancé l'application (surtout ne pas mettre de chemin absolu pour désigner le fichier).
+
+\medskip
+
+Les robots jouent automatiquement. Les lettres jouées par ce type de joueurs ne sont pas saisies mais affichées. Bien entendu, ils ont accès au dictionnaire et doivent être programmés de sorte qu'ils jouent le mieux possible.
+
+\medskip
+
+\`A la fin de chaque manche, le nombre de quarts de singe de chaque joueur est affiché ("\texttt{1H : 0.25; 2R : 0; 3H : 0.75; 4R : 0}" par exemple). Si aucun joueur n'a reçu quatre quarts de singe, le joueur ayant perdu la dernière manche débute la suivante. Dans le cas contraire, l'application affiche "\texttt{La partie est finie}". L'annexe (fig. 1) est un extrait de la trace d'exécution d'une partie.
+
+\newpage
+
+\section*{Annexe}
+\begin{center}
+\begin{figure*}[ht]
+\setlength{\columnseprule}{.25mm}
+\setlength{\columnsep}{15.mm}
+\color{blue}
+\begin{Verbatim}[commandchars=\\\{\}]
+1H, () > \textcolor{red}{A}
+2R, (A) > B
+3H, (AB) > \textcolor{red}{A}
+4R, (ABA) > C
+1H, (ABAC) > \textcolor{red}{?}
+4R, saisir le mot > ABACULE
+le mot ABACULE existe, 1H prend un quart de singe
+1H : 0.25; 2R : 0; 3H : 0; 4R : 0
+1H, () > \textcolor{red}{A}
+2R, (A) > B
+3H, (AB) > \textcolor{red}{A}
+4R, (ABA) > C
+1H, (ABAC) > \textcolor{red}{A}
+le mot ABACA existe, 1H prend un quart de singe
+1H : 0.5; 2R : 0; 3H : 0; 4R : 0
+1H, () > \textcolor{red}{A}
+2R, (A) > B
+3H, (AB) > \textcolor{red}{A}
+4R, (ABA) > ?
+3H, saisir le mot > \textcolor{red}{ABACADABRA}
+le mot ABACADABRA n'existe pas, 3H prend un quart de singe
+1H : 0.5; 2R : 0; 3H : 0.25; 4R : 0
+3H, () > ...
+...
+le mot XYZ n'existe pas, 3H prend un quart de singe
+1H : 0.5; 2R : 0; 3H : 1; 4R : 0
+La partie est finie
+\end{Verbatim}
+\color{black}
+	\caption{Exemple de session -- en \textcolor{red}{rouge}, les données saisies par les joueurs humains, en \textcolor{blue}{bleu}, les messages affichés par le programme.}
+	\label{fig:session}
+\end{figure*}
+\end{center}
+
+\end{document}
