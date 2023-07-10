@@ -51,7 +51,7 @@ singe.exe <H|R>...
 
 To illustrate the execution, here are some examples :
 
-```
+```bash
 singe.exe HH            # 2 Humans
 singe.exe RR            # 2 Robots
 singe.exe HR            # 1 Human / 1 Robot
