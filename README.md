@@ -1,8 +1,10 @@
 <h1 align="center">Quarter Monkey Game · IUT de Paris - Rives de Seine</h1>
 
+
 The "Quarter Monkey Game" GitHub project is a software that allows a group of players to play a game of Quarter Monkey. The application ensures adherence to the game's rules and manages the entire progression of the game until the announcement of the loser.
 
-> **Warning** : The project has been developed exclusively in a professional context, with the specific aim of promoting learning. It is carried out as a project for the University of Paris.
+> [!IMPORTANT]  
+> The project has been developed exclusively in a professional context, with the specific aim of promoting learning. It is carried out as a project for the University of Paris.
 
 <p align="center">
   <img src="https://github.com/Corentin-Lcs/iut-quarter-monkey-game/blob/main/Quart_De_Singe.png" alt="Quart_De_Singe.png"/>
