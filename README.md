@@ -1,6 +1,5 @@
 <h1 align="center">Quarter Monkey Game · IUT de Paris - Rives de Seine</h1>
 
-
 The "Quarter Monkey Game" GitHub project is a software that allows a group of players to play a game of Quarter Monkey. The application ensures adherence to the game's rules and manages the entire progression of the game until the announcement of the loser.
 
 > [!IMPORTANT]  
